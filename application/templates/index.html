@@ -1,0 +1,109 @@
+{% extends 'layouts/layout.html' %} {% block head %}
+<form action="/sign-out" method="get">
+  <button type="submit">Sign Out</button>
+</form>
+{% endblock %} {% block body %}
+<div id="add-task-form" data-id="{{token}}">
+  <h2>Add New Task</h2>
+  <form id="task-form">
+    <input
+      type="text"
+      id="task-description"
+      placeholder="Task description"
+      required
+    />
+    <select name="status" id="status">
+      <option value="Work">Work</option>
+      <option value="Personal">Personal</option>
+      <option value="School">School</option>
+      <option value="Other">Other</option>
+    </select>
+    <button type="submit">Add Task</button>
+  </form>
+</div>
+<div id="task-list">
+  <!-- Task list will be dynamically populated here -->
+  {% for task in todo %}
+  <table class="task">
+    <tr>
+      <td><input type="checkbox" /></td>
+      <td>{{task.task}}</td>
+      <td>{{task.status + ""}}</td>
+      <td>
+        {{task.created.strftime('%a, %d-%b-%Y %H:%M:%S').replace("GMT", "")}}
+      </td>
+      <td><button data-id="{{task.id}}">Delete</button></td>
+    </tr>
+  </table>
+  {% endfor %}
+</div>
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", async function () {
+    const token = document.getElementById("add-task-form").dataset.id;
+    let taskList = document.getElementById("task-list");
+    const taskForm = document.getElementById("task-form");
+
+    taskForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      // Get form values
+      const taskDescription = document.getElementById("task-description").value;
+      const status = document.getElementById("status").value;
+
+      getList(
+        "/todo",
+        "POST",
+        JSON.stringify({
+          task: taskDescription,
+          status: status,
+        })
+      );
+
+      // Clear the form
+      taskForm.reset();
+    });
+    taskList.addEventListener("click", async function (event) {
+      const target = event.target;
+      if (target.tagName === "BUTTON") {
+        const taskElement = target.closest(".task");
+        if (target.textContent === "Delete") {
+          // Remove the task element
+          getList(
+            "/remove-todo",
+            "DELETE",
+            JSON.stringify({
+              id: target.dataset.id,
+            })
+          );
+        } else if (target.textContent === "Edit") {
+        }
+      }
+    });
+
+    async function getList(endpoint, method, body = JSON.stringify({})) {
+      const response = await fetch(endpoint, {
+        method: method,
+        headers: {
+          "x-access-token": token,
+          "content-type": "application/json",
+        },
+        body: body,
+      });
+      const tasks = await response.json();
+
+      taskList.innerHTML = tasks.result.map((task) => {
+        // Create a new task element
+        return `
+                    <table class="task">
+                    <td><input type="checkbox"></td>
+                    <td><span>${task.task}</span></td>
+                    <td><span>${task.status + ""}</span></td>
+                    <td><span>${task.created.replace("GMT", "")}</span></td>
+                    <td><button data-id="${task.id}">Delete</button></td>
+                    </table>
+                `;
+      });
+    }
+  });
+</script>
+
+{% endblock %}
