@@ -270,7 +270,7 @@ psql -h 'your-private-ip' -U postgres
 
 ![PSQL](application/static/assets/psql.png)
 
-#### Flask--Todo-App
+#### Description
 
 Postgres powered Python Application, that allows 'Autheticated' users to create or delete tasks. Authentication is simple email-password authentication.
 
