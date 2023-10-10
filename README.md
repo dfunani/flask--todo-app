@@ -17,7 +17,7 @@
   <h3 align="center">Flask--Todo-App</h3>
 
   <p align="center">
-    A Python Powered Todo App
+    A Python Powered Flask Built Todo App
     <br />
     <a href="https://github.com/dfunani/flask--todo-app"><strong>Explore the docs »</strong></a>
     <br />
