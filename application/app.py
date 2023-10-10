@@ -1,6 +1,6 @@
 from flask import jsonify, render_template, request, redirect, session, url_for
 import jwt
-from models import app
+from models import app, db
 from models.todo import Users, Todo
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
