@@ -48,5 +48,6 @@ jobs:
     - name: Build the Docker image
       run: |
         cd ..
+        ls
         docker build -t db database/
         docker build -t db application/
