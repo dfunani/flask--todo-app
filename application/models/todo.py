@@ -1,10 +1,10 @@
 from enum import Enum
 import json
-from .. import app, url_object, db
+from .. import app, db
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-engine = create_engine(url_object)
+engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 
 class Status(str, Enum):
     Work="Work"
