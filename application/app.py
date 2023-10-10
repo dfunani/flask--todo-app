@@ -1,11 +1,10 @@
 from flask import jsonify, render_template, request, redirect, session, url_for
 import jwt
-from .models.todo import Users, Todo
-from . import app, db
-from  werkzeug.security import generate_password_hash, check_password_hash
+from models import app
+from models.todo import Users, Todo
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
-from .wrappers.authenticate import token_required
-
+from wrappers.authenticate import token_required
 
 # Landing page for authorized  users
 @app.route("/")

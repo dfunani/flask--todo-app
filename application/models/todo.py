@@ -1,8 +1,6 @@
 from enum import Enum
-import json
-from .. import app, db
+from models import app, db
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
 
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 

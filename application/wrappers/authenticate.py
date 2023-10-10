@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import redirect, request, jsonify, session, url_for
 from functools import wraps
-from ..models.todo import Users
+from models.todo import Users
 import jwt
 
 # decorator for verifying the JWT
@@ -19,6 +19,7 @@ def token_required(f):
         # return 401 if token is not passed
         if not token:
             # return jsonify({'message' : 'Token is missing !!'}), 401
+            print("hel")
             return redirect(url_for("login"))
   
         try:
