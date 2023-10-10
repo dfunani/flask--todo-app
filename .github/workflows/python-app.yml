@@ -26,12 +26,6 @@ jobs:
     - name: Install dependencies
       run: |
         cd application/
-        export SECRET_KEY="secret-key"
-        export TYPE="postgresql"
-        export USERNAME="postgres"
-        export PASSWORD="postgres"
-        export HOST="192.168.0.102"
-        export DATABASE="postgresdb"
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
@@ -43,8 +37,13 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        ls
         cd application/
+        export SECRET_KEY="secret-key"
+        export TYPE="postgresql"
+        export USERNAME="postgres"
+        export PASSWORD="postgres"
+        export HOST="192.168.0.102"
+        export DATABASE="postgresdb"
         python -m pytest
     - name: Build the Docker image
       run: |
