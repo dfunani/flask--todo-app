@@ -47,5 +47,6 @@ jobs:
         python -m pytest
     - name: Build the Docker image
       run: |
+        cd ..
         docker build -t db database/
         docker build -t db application/
